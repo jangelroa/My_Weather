@@ -6,6 +6,27 @@
 
 
 
+.add-small-maring-bottom {
+  margin-bottom: 20px;
+}
+
+.add-small-margin-top {
+  margin-top: 50px;
+}
+
+#get-weather-in-user-location {
+  margin-right: 30px;
+}
+
+#show-lat-lon-div {
+  min-height: 40px;
+}
+
+#show-lat-lon {
+  /*margin-left: 60px;*/
+}
+
+
 
 
 
