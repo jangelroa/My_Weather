@@ -8,12 +8,12 @@ $( document ).ready(function() {
 
   var weatherDesc;
 
-  var addOrCreateAKey = function(json,key){
+  var addOrCreateAKey = function(jsonObject, key){
 
-    if(json[key]){
-      json[key] += 1;
+    if(jsonObject[key]){
+      jsonObject[key] += 1;
     } else {
-      json[key] = 1;
+      jsonObject[key] = 1;
     }
   }
 
@@ -106,13 +106,16 @@ $( document ).ready(function() {
         console.log(length);
         console.log(totalDays);
 
-        var porcentageData = {};
+        var porcentageData = [];
 
         for(x in weatherDesc) {
           console.log(x, Math.round(weatherDesc[x]/totalDays*100*100)/100);
-          porcentageData[x] = Math.round(weatherDesc[x]/totalDays*100*100)/100;
+          porcentageData.push([x, Math.round(weatherDesc[x]/totalDays*100*100)/100])
+          // porcentageData[x] = Math.round(weatherDesc[x]/totalDays*100*100)/100;
         }
-        console.log(porcentageData);
+        console.log("porcentageData = ", porcentageData);
+
+        generateTheChart1(porcentageData);
 
       })
       .fail(function(){
@@ -122,32 +125,32 @@ $( document ).ready(function() {
 
       });
 
-      /////// CHART ///////
-      var chart = c3.generate({
-          data: {
-              // iris data from R
-              columns: [
-                  ['data1', 30],
-                  ['data2', 120]
-              ],
-              type : 'pie',
-              onclick: function (d, i) { console.log("onclick", d, i); },
-              onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-              onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-          }
-      });
+      var generateTheChart1 = function(arrayData) {
+        /////// CHART ///////
+        var chart1 = c3.generate({
+            data: {
+                // iris data from R
+                columns: arrayData,
+                type : 'pie',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+            }
+        });
 
-      setTimeout(function () {
-          chart.load({
-              columns: [
-                  ["setosa", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2],
-                  ["versicolor", 1.4, 1.5],
-                  ["virginica", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8],
-              ]
-          });
-      }, 1500);
+        // setTimeout(function () {
+        //     chart.load({
+        //         columns: [
+        //             ["setosa", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2],
+        //             ["versicolor", 1.4, 1.5],
+        //             ["virginica", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8],
+        //         ]
+        //     });
+        // }, 1500);
 
-      /////// /CHART ///////
+        /////// /CHART ///////
+
+      }
 
 
 
