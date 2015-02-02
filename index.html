@@ -9,6 +9,13 @@
     <title>My Weather</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Load c3.css -->
+    <link href="css/c3.css" rel="stylesheet" type="text/css">
+
+    <!-- Load d3.js and c3.js -->
+    <script src="js/vendor/d3.min.js" charset="utf-8"></script>
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+    <script src="js/vendor/c3.min.js"></script>
     <link rel="shortcut icon" href="./img/favicon.ico">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -85,6 +92,9 @@
         <p>First day: <input type="text" id="datepicker1"></p>
         <p>Last day: <input type="text" id="datepicker2"></p>
         <p><a id="sunny" class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
+        <div id="chart"></div>
+
       </div>
 
       <div class="col-md-4">
