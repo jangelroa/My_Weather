@@ -12,8 +12,9 @@ $( document ).ready(function() {
 
   var basicUrlWithKey = "http://api.worldweatheronline.com/free/v2/past-weather.ashx?key=38605afdfa427945d06311e0e6ac3";
 
-  var temperatureArray;
-  var weatherDesc;
+  var rainfallArray,
+      temperatureArray,
+      weatherDesc;
 
   var addOrCreateAKey = function(jsonObject, key){
 
@@ -77,7 +78,9 @@ $( document ).ready(function() {
     datepicker1 = $( "#datepicker1" ).val();
     datepicker2 = $( "#datepicker2" ).val();
 
+
     var url = basicUrlWithKey + "&q="+lat+","+lon+"&date="+datepicker1+"&enddate="+datepicker2+"&format=json";
+
     console.log(url);
 
     $.get(url)
@@ -105,7 +108,7 @@ $( document ).ready(function() {
         var porcentageData = [];
 
         for(x in weatherDesc) {
-          console.log(x, Math.round(weatherDesc[x]/totalDays*100*100)/100);
+          // console.log(x, Math.round(weatherDesc[x]/totalDays*100*100)/100);
           porcentageData.push([x, Math.round(weatherDesc[x]/totalDays*100*100)/100])
         }
         console.log("porcentageData = ", porcentageData);
@@ -153,7 +156,9 @@ $( document ).ready(function() {
     datepicker1 = $( "#datepicker1" ).val();
     datepicker2 = $( "#datepicker2" ).val();
 
+
     var url = basicUrlWithKey + "&q="+lat+","+lon+"&date="+datepicker1+"&enddate="+datepicker2+"&format=json";
+
     console.log(url);
 
     $.get(url)
@@ -194,6 +199,70 @@ $( document ).ready(function() {
         var chart = c3.generate({
           data: {
             columns: temperatureArray
+          }
+        });
+
+        /////// /CHART ///////
+
+      }
+
+  });
+
+
+
+
+
+
+
+// Clicking the "rainFall" button
+  $( "#rainfall" ).on( "click" , function( event ) {
+    event.preventDefault();
+    datepicker1 = $( "#datepicker1" ).val();
+    datepicker2 = $( "#datepicker2" ).val();
+
+
+    var url = basicUrlWithKey + "&q="+lat+","+lon+"&date="+datepicker1+"&enddate="+datepicker2+"&format=json";
+
+    console.log(url);
+
+    $.get(url)
+      .done(function(parsed_json){
+        console.log(parsed_json);
+        var totalDays = parsed_json.data.weather.length;
+
+        rainfallArray = [];
+
+        for(var i = 0 ; i < totalDays ; i++ ) {
+
+          var arrayHelper = [];
+          arrayHelper.push(parsed_json.data.weather[i].date);
+          console.log("arrayHelper = ", arrayHelper);
+
+          for(var j = 0 ; j < parsed_json.data.weather[i].hourly.length ; j++) {
+            arrayHelper.push(parsed_json.data.weather[i].hourly[j].precipMM);
+          }
+
+          rainfallArray.push(arrayHelper);
+        }
+
+        console.log("rainfallArray = ", rainfallArray);
+
+        generateTheChart3(rainfallArray);
+
+      })
+      .fail(function(){
+        console.log("worldweatheronline failed");
+      })
+      .always(function(){
+
+      });
+
+      var generateTheChart3 = function(rainfallArray) {
+        console.log("SUPERrainfallArray =", rainfallArray);
+        /////// CHART ///////
+        var chart = c3.generate({
+          data: {
+            columns: rainfallArray
           }
         });
 
