@@ -29,15 +29,26 @@ body {
   /*margin-left: 60px;*/
 }
 
+.row-buttons {
+  margin-bottom: 30px;
+}
+
+.add-border-right {
+  border-right: 10px solid #CCC;
+}
+
+.col-md-5 {
+  margin-left: 20px;
+}
 
 
+.row-chart {
+  margin-top: 50px;
+}
 
-
-
-
-
-
-
+#chart {
+  min-height: 300px;
+}
 
 
 

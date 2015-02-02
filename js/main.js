@@ -6,6 +6,13 @@ $( document ).ready(function() {
   var lat = 37.74,
       lon = -122.43;
 
+  var datepicker1,
+      datepicker2;
+
+
+  var basicUrlWithKey = "http://api.worldweatheronline.com/free/v2/past-weather.ashx?key=38605afdfa427945d06311e0e6ac3";
+
+  var temperatureArray;
   var weatherDesc;
 
   var addOrCreateAKey = function(jsonObject, key){
@@ -62,24 +69,14 @@ $( document ).ready(function() {
   $( "#datepicker1" ).datepicker({dateFormat: 'yy-mm-dd' });
   $( "#datepicker2" ).datepicker({dateFormat: 'yy-mm-dd' });
 
+
+
 // Clicking the "sunny" button
   $( "#sunny" ).on( "click" , function( event ) {
     event.preventDefault();
-    var datepicker1 = $( "#datepicker1" ).val();
-    var datepicker2 = $( "#datepicker2" ).val();
-    // var datepicker1 = $( "#datepicker1" ).datapicker("getDate");
+    datepicker1 = $( "#datepicker1" ).val();
+    datepicker2 = $( "#datepicker2" ).val();
 
-    // var date_test1 = new Date(datepicker1);
-    // var date_test2 = new Date(datepicker2);
-    // console.log(datepicker1);
-    // console.log(date_test1);
-    // console.log(date_test1.getDate());
-    // console.log(datepicker2);
-    // console.log(date_test2);
-    // console.log(date_test2.getMonth());
-    // alert( datepicker1 + " " + datepicker2 );
-
-    var basicUrlWithKey = "http://api.worldweatheronline.com/free/v2/past-weather.ashx?key=38605afdfa427945d06311e0e6ac3";
     var url = basicUrlWithKey + "&q="+lat+","+lon+"&date="+datepicker1+"&enddate="+datepicker2+"&format=json";
     console.log(url);
 
@@ -94,7 +91,6 @@ $( document ).ready(function() {
           console.log(parsed_json.data.weather[i].date);
 
         // hourly[4] match 1400 ( = 2:00pm) to select the weather description
-          // console.log(parsed_json.data.weather[i].hourly[4].time);
           console.log(parsed_json.data.weather[i].hourly[4].weatherDesc[0].value);
 
 
@@ -103,15 +99,14 @@ $( document ).ready(function() {
 
         var length = Object.keys(weatherDesc).length;
         console.log(weatherDesc);
-        console.log(length);
-        console.log(totalDays);
+        console.log("# of weather desc = ", length);
+        console.log("totalDays = ", totalDays);
 
         var porcentageData = [];
 
         for(x in weatherDesc) {
           console.log(x, Math.round(weatherDesc[x]/totalDays*100*100)/100);
           porcentageData.push([x, Math.round(weatherDesc[x]/totalDays*100*100)/100])
-          // porcentageData[x] = Math.round(weatherDesc[x]/totalDays*100*100)/100;
         }
         console.log("porcentageData = ", porcentageData);
 
@@ -138,21 +133,73 @@ $( document ).ready(function() {
             }
         });
 
-        // setTimeout(function () {
-        //     chart.load({
-        //         columns: [
-        //             ["setosa", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2],
-        //             ["versicolor", 1.4, 1.5],
-        //             ["virginica", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8],
-        //         ]
-        //     });
-        // }, 1500);
-
         /////// /CHART ///////
 
       }
 
 
+
+  });
+
+
+
+
+
+
+
+// Clicking the "temperature" button
+  $( "#temperature" ).on( "click" , function( event ) {
+    event.preventDefault();
+    datepicker1 = $( "#datepicker1" ).val();
+    datepicker2 = $( "#datepicker2" ).val();
+
+    var url = basicUrlWithKey + "&q="+lat+","+lon+"&date="+datepicker1+"&enddate="+datepicker2+"&format=json";
+    console.log(url);
+
+    $.get(url)
+      .done(function(parsed_json){
+
+        var totalDays = parsed_json.data.weather.length;
+
+        temperatureArray = [];
+
+        for(var i = 0 ; i < totalDays ; i++ ) {
+
+          var arrayHelper = [];
+          arrayHelper.push(parsed_json.data.weather[i].date);
+          console.log("arrayHelper = ", arrayHelper);
+
+          for(var j = 0 ; j < parsed_json.data.weather[i].hourly.length ; j++) {
+            arrayHelper.push(parsed_json.data.weather[i].hourly[j].tempF);
+          }
+
+          temperatureArray.push(arrayHelper);
+        }
+
+        console.log("temperatureArray = ", temperatureArray);
+
+        generateTheChart2(temperatureArray);
+
+      })
+      .fail(function(){
+        console.log("worldweatheronline failed");
+      })
+      .always(function(){
+
+      });
+
+      var generateTheChart2 = function(temperatureArray) {
+        console.log("SUPERtemperatureArray =", temperatureArray);
+        /////// CHART ///////
+        var chart = c3.generate({
+          data: {
+            columns: temperatureArray
+          }
+        });
+
+        /////// /CHART ///////
+
+      }
 
   });
 

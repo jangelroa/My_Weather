@@ -49,8 +49,8 @@
     <div class="container">
       <h1>My Weather App</h1>
 
-      <div class="row">
-        <div class="col-md-6 add-small-margin-top">
+      <div class="row row-buttons">
+        <div class="col-md-5 add-small-margin-top add-border-right">
 
           <p>Get the weather in your location:</p>
           <p>
@@ -64,7 +64,7 @@
 
         </div>
 
-        <div class="col-md-6 add-small-margin-top">
+        <div class="col-md-5 add-small-margin-top">
           <p>Or specify a different location:</p>
           <div class="input-group add-small-maring-bottom">
             <span class="input-group-addon" id="basic-addon1">Location</span>
@@ -78,41 +78,51 @@
 
       </div>
 
+      <div class="row">
+        <div class="col-md-12">
+          <p>Select a time period and then click in the chart you would like to visualize.</p>
+          <p>_ (maximum time period: 30 days). </p>
+          <p>_ (only past dates to access the historical). </p>
+          <p>First day: <input type="text" id="datepicker1"></p>
+          <p>Last day: <input type="text" id="datepicker2"></p>
+        </div>
+      </div>
+
     </div>
 
   </div> <!-- /jumbotron -->
 
   <div class="container">
     <!-- Example row of columns -->
+
+
+
+
+
     <div class="row">
 
       <div class="col-md-4">
         <h2>Sunny days</h2>
-        <p>Select a time frame to visualize the percent of sunny days during the time period (max: 30 days). </p>
-        <p>First day: <input type="text" id="datepicker1"></p>
-        <p>Last day: <input type="text" id="datepicker2"></p>
-        <p><a id="sunny" class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <p><a id="sunny" class="btn btn-default" href="#" role="button">View Sunny Day Chart &raquo;</a></p>
 
       </div>
 
       <div class="col-md-4">
         <h2>Temperature</h2>
-        <p>Select a time frame to visualize the percent of sunny days during the time period (max: 30 days). </p>
-        <p>First day: <input type="text" id="datepicker1"></p>
-        <p>Last day: <input type="text" id="datepicker2"></p>
-        <p><a id="sunny" class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <p><a id="temperature" class="btn btn-default" href="#" role="button">View Temperature Chart &raquo;</a></p>
 
      </div>
 
       <div class="col-md-4">
         <h2>Rainfall</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <p><a id="rainfall" class="btn btn-default" href="#" role="button">View Rainfall Chart &raquo;</a></p>
       </div>
     </div>
 
-    <div class="col-md-12">
-      <div id="chart"></div>
+    <div class="row row-chart">
+      <div class="col-md-12">
+        <div id="chart"></div>
+      </div>
     </div>
 
     <hr>
